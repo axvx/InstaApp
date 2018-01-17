@@ -1,5 +1,5 @@
 package com.example.axbx.instaapp;
-
+//Version simple de la aplicacionn
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -30,7 +30,6 @@ public class PostActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-
 
 
 
