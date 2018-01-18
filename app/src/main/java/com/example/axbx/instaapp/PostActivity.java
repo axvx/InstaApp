@@ -1,5 +1,5 @@
 package com.example.axbx.instaapp;
-//Version simple de la aplicacionn
+//Permite autenticarse
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
