@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void loginButtonClicked(View view){ //
+    public void loginButtonClicked(View view){ ///
 
         String email= loginEmail.getText().toString().trim();
         String pass=loginPass.getText().toString().trim();
