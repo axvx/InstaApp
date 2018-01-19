@@ -1,5 +1,6 @@
 package com.example.axbx.instaapp;
 
+import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,10 +76,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(InstaViewHolder viewHolder, insta model, int position) {
             //Poblar la Recycler View
+
+                final String post_key=getRef(position).getKey().toString();
+
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setDesc(model.getDesc());
                 viewHolder.setImage(getApplicationContext(),model.getImage());
                 viewHolder.setUserName(model.getUsername());
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Toast.makeText(getApplicationContext(),"sss",Toast.LENGTH_LONG).show();
+
+                      Intent singleInstaActivity=new Intent(MainActivity.this, SingleInstaActivity.class);
+                        singleInstaActivity.putExtra("Postid",post_key);
+                        startActivity(singleInstaActivity);
+
+                    }
+                });
             }
         };
 
@@ -95,33 +113,34 @@ public class MainActivity extends AppCompatActivity {
 
     public static class InstaViewHolder extends RecyclerView.ViewHolder{
 
+        View mView;
         public InstaViewHolder(View itemView){
             super(itemView);
-            View mView=itemView;
+             mView=itemView;
 
         }
 
         public void setTitle(String title){
-            TextView post_title=(TextView)itemView.findViewById(R.id.textTitle);
+            TextView post_title=(TextView)mView.findViewById(R.id.textTitle);
             post_title.setText(title);
 
         }
 
 
         public void setDesc(String desc){
-            TextView post_desc=(TextView)itemView.findViewById(R.id.textDescription);
+            TextView post_desc=(TextView)mView.findViewById(R.id.textDescription);
             post_desc.setText(desc);
 
         }
 
         public void setImage(Context ctx, String image){
-            ImageView post_image=(ImageView)itemView.findViewById(R.id.post_image);
+            ImageView post_image=(ImageView)mView.findViewById(R.id.post_image);
             Picasso.with(ctx).load(image).into(post_image);
 
         }
 
         public void setUserName(String userName){
-            TextView postUserName=(TextView)itemView.findViewById(R.id.textUsername);
+            TextView postUserName=(TextView)mView.findViewById(R.id.textUsername);
             postUserName.setText(userName);
             }
     }
