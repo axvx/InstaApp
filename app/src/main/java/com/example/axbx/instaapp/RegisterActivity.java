@@ -66,6 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
                         DatabaseReference current_user_db = mDatabase.child(user_id);
                         current_user_db.child("Name").setValue(name);
                         current_user_db.child("image").setValue("default");
+                        current_user_db.child("pass").setValue(pass);
+                        current_user_db.child("email").setValue(email);
 
                         Intent mainIntent = new Intent(RegisterActivity.this, SetupActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

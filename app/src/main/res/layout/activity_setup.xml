@@ -18,6 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/displayName"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="@drawable/editshape"
         android:hint="Enter user name"/>
     <Button
         android:layout_width="match_parent"

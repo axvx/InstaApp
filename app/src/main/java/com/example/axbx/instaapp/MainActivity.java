@@ -1,5 +1,6 @@
 package com.example.axbx.instaapp;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         mInstaList=(RecyclerView)findViewById(R.id.insta_list);
         mInstaList.setHasFixedSize(true);
         mInstaList.setLayoutManager(new LinearLayoutManager(this));
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                       Intent singleInstaActivity=new Intent(MainActivity.this, SingleInstaActivity.class);
                         singleInstaActivity.putExtra("Postid",post_key);
+
                         startActivity(singleInstaActivity);
 
                     }
@@ -162,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(id==R.id.logout){
             mAuth.signOut();
+            Intent intent=new Intent (MainActivity.this,LoginActivity.class);
+            startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);

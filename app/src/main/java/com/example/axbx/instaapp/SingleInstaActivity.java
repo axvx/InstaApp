@@ -38,7 +38,8 @@ public class SingleInstaActivity extends AppCompatActivity {
         mDatabase.child(post_key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String post_title=(String) dataSnapshot.child("title").getValue();
+                //datos que se pueden mostrar
+                String post_title=(String) dataSnapshot.child("tittle").getValue();
                 String post_desc=(String) dataSnapshot.child("desc").getValue();
                 String post_image=(String) dataSnapshot.child("image").getValue();
                 String post_uid=(String) dataSnapshot.child("uid").getValue();
