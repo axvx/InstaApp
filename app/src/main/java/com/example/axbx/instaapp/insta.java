@@ -5,18 +5,23 @@ package com.example.axbx.instaapp;
  */
 
 public class insta {
-    private String title,desc,image;
+    private String title,desc,image,username;
     public  insta(){
 
     }
 
-    public insta(String title,String desc,String image){
+    public insta(String title,String desc,String image,String username){
 
         this.title=title;
         this.desc=desc;
         this.image=image;
+        this.username=username;
 
 
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getDesc() {
@@ -43,5 +48,9 @@ public class insta {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

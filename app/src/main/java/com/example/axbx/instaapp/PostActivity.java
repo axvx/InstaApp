@@ -3,6 +3,7 @@ package com.example.axbx.instaapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,9 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -30,6 +38,11 @@ public class PostActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseusers;
+    private FirebaseUser mCurrentUser;
+
+
 
 
 
@@ -41,6 +54,10 @@ public class PostActivity extends AppCompatActivity {
         editDec=(EditText)findViewById(R.id.editDesc);
         storageReference= FirebaseStorage.getInstance().getReference();
         databaseReference=database.getInstance().getReference().child("InstaApp");
+        mAuth=FirebaseAuth.getInstance();
+        mCurrentUser=mAuth.getCurrentUser();
+        mDatabaseusers=FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
+
 
     }
     public void imageButtonClicked(View view){
@@ -79,19 +96,43 @@ public class PostActivity extends AppCompatActivity {
         final String titleValue=editName.getText().toString().trim();
         final String titleDec=editDec.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(titleValue)&& !TextUtils.isEmpty(titleDec)){
+        if(!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(titleDec)){
 
             StorageReference filePath= storageReference.child("PostImage").child(uri.getLastPathSegment());
             filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadurl=taskSnapshot.getDownloadUrl();
+                    final Uri downloadurl=taskSnapshot.getDownloadUrl();
                     Toast.makeText(PostActivity.this,"Upload complete",Toast.LENGTH_LONG).show();
-                    DatabaseReference newPost=databaseReference.push();
-                    newPost.child("tittle").setValue(titleValue);
-                    newPost.child("desc").setValue(titleDec);
-                    newPost.child("image").setValue(downloadurl.toString());
 
+                    mDatabaseusers.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            DatabaseReference newPost=databaseReference.push();
+                            newPost.child("tittle").setValue(titleValue);
+                            newPost.child("desc").setValue(titleDec);
+                            newPost.child("image").setValue(downloadurl.toString());
+                            newPost.child("uid").setValue(mCurrentUser.getUid());
+                            newPost.child("username").setValue(dataSnapshot.child("Name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if(task.isSuccessful()){
+                                        Intent mainActivityIntente=new Intent(PostActivity.this,MainActivity.class);
+                                        startActivity(mainActivityIntente);
+
+                                    }
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             });
 
