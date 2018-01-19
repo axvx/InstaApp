@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setDesc(model.getDesc());
                 viewHolder.setImage(getApplicationContext(),model.getImage());
+                viewHolder.setUserName(model.getUsername());
             }
         };
 
@@ -118,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
             Picasso.with(ctx).load(image).into(post_image);
 
         }
+
+        public void setUserName(String userName){
+            TextView postUserName=(TextView)itemView.findViewById(R.id.textUsername);
+            postUserName.setText(userName);
+            }
     }
 
     @Override
@@ -141,4 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
