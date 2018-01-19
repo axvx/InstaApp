@@ -98,6 +98,8 @@ public class SetupActivity extends AppCompatActivity {
                     String downloadurl= taskSnapshot.toString();
             mDatabaseusers.child(user_id).child("name").setValue(name);
             mDatabaseusers.child(user_id).child("image").setValue(downloadurl);
+            Intent Regresa=new Intent(SetupActivity.this,MainActivity.class);
+            startActivity(Regresa);
 
 
 
